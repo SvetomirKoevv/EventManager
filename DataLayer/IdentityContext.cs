@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer
 {
-    class IdentityContext
+    public class IdentityContext
     {
         UserManager<User> userManager;
         EventManagerDbContext context;

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BusinessLayer;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer
 {
-    class EventContext : IDb<Event, int>
+    public class EventContext : IDb<Event, int>
     {
         private readonly EventManagerDbContext context;
 
