@@ -26,6 +26,7 @@ namespace MVCEventManager
             services.AddScoped<UserManager<User>>();
             services.AddScoped<IdentityContext>();
             services.AddScoped<IdentityManager>();
+            services.AddScoped<EventContext>();
 
             services.AddDbContext<EventManagerDbContext>(options =>
                 options.UseSqlServer("Server=DESKTOP-RD8LV0K;Database=EventManager;Trusted_Connection=True;Encrypt=False"),

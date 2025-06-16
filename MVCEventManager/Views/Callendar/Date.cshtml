@@ -1,0 +1,20 @@
+﻿@using BusinessLayer;
+@model DateViewModel
+
+@{
+
+    Dictionary<string,string> data = new Dictionary<string, string>();
+    data["Date"] = $"{Model.Year}/{Model.Month}/{Model.Day}";
+    <a asp-controller="Events" asp-action="Create" asp-all-route-data="@data">Add Event</a>
+}
+
+<h2>@Model.Year</h2>
+<h2>@Model.Month</h2>
+<h2>@Model.Day</h2>
+
+@foreach (Event e in Model.Events)
+{
+    <div>
+        <h2>@e.Name</h2>
+    </div>
+}

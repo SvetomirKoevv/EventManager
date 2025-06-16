@@ -1,0 +1,58 @@
+﻿@model Dictionary<string, string>
+
+<h2>@Model["Year"]</h2>
+<h2>@Model["Month"]</h2>
+
+
+
+<div>
+    @{
+        Dictionary<string, string> dataForPrev = new Dictionary<string, string>();
+        dataForPrev["Year"] = Model["Year"];
+        dataForPrev["Month"] = Model["Month"];
+        int newMonthIndexNext = int.Parse(Model["MonthIndex"]) - 1;
+        if (newMonthIndexNext <= 0)
+        {
+            newMonthIndexNext = 12;
+            dataForPrev["Year"] = (int.Parse(Model["Year"]) - 1).ToString();
+        }
+        dataForPrev["MonthIndex"] = newMonthIndexNext.ToString();
+    }
+    <a asp-controller="Callendar" asp-action="Index" asp-all-route-data="dataForPrev">&lt;</a>
+</div>
+
+<div class="d-flex flex-wrap w-50">
+    @for (int i = 1; i <= DateTime.DaysInMonth(int.Parse(Model["Year"]), int.Parse(Model["MonthIndex"])); i++)
+    {
+        Dictionary<string, string> dataForDate = new Dictionary<string, string>();
+        dataForDate["Year"] = Model["Year"];
+        dataForDate["MonthIndex"] = Model["MonthIndex"];
+        dataForDate["Day"] = i.ToString();
+        <div class="date-placeholder"><a asp-controller="Callendar" asp-action="Date" asp-all-route-data="@dataForDate">@i</a></div>
+    }
+</div>
+
+<div>
+    @{
+        Dictionary<string, string> dataForNext = new Dictionary<string, string>();
+        dataForNext["Year"] = Model["Year"];
+        dataForNext["Month"] = Model["Month"];
+        int newMonthIndexPrev = int.Parse(Model["MonthIndex"]) + 1;
+        if (newMonthIndexPrev > 12)
+        {
+            newMonthIndexPrev = 1;
+            dataForNext["Year"] = (int.Parse(Model["Year"]) + 1).ToString();
+        }
+        dataForNext["MonthIndex"] = newMonthIndexPrev.ToString();
+    }
+    <a asp-controller="Callendar" asp-action="Index" asp-all-route-data="dataForNext">&gt;</a>
+</div>
+
+<style>
+    .date-placeholder{
+        aspect-ratio: 1/1;
+        padding: 20px;
+        border: 1px solid white;
+        width: 50px;
+    }
+</style>

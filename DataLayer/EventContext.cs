@@ -48,7 +48,7 @@ namespace DataLayer
             }
         }
 
-        public async Task<ICollection<Event>> ReadAllAsync(bool useNavigationalProperties = false)
+        public async Task<IEnumerable<Event>> ReadAllAsync(bool useNavigationalProperties = false)
         {
             try
             {
