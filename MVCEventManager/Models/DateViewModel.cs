@@ -9,5 +9,7 @@ namespace MVCEventManager.Models
         public int MonthIndex { get; set; }
         public string Month { get; set; }
         public int Day { get; set; }
+        public string SortType { get; set; }
+        public string SortOrder { get; set; }
     }
 }

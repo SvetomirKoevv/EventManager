@@ -1,58 +1,146 @@
 ﻿@model Dictionary<string, string>
 
-<h2>@Model["Year"]</h2>
-<h2>@Model["Month"]</h2>
-
-
-
-<div>
-    @{
-        Dictionary<string, string> dataForPrev = new Dictionary<string, string>();
-        dataForPrev["Year"] = Model["Year"];
-        dataForPrev["Month"] = Model["Month"];
-        int newMonthIndexNext = int.Parse(Model["MonthIndex"]) - 1;
-        if (newMonthIndexNext <= 0)
-        {
-            newMonthIndexNext = 12;
-            dataForPrev["Year"] = (int.Parse(Model["Year"]) - 1).ToString();
-        }
-        dataForPrev["MonthIndex"] = newMonthIndexNext.ToString();
-    }
-    <a asp-controller="Callendar" asp-action="Index" asp-all-route-data="dataForPrev">&lt;</a>
-</div>
-
-<div class="d-flex flex-wrap w-50">
-    @for (int i = 1; i <= DateTime.DaysInMonth(int.Parse(Model["Year"]), int.Parse(Model["MonthIndex"])); i++)
+@{
+    Dictionary<string, string> dataForPrev = new Dictionary<string, string>();
+    dataForPrev["Year"] = Model["Year"];
+    dataForPrev["Month"] = Model["Month"];
+    int newMonthIndexNext = int.Parse(Model["MonthIndex"]) - 1;
+    if (newMonthIndexNext <= 0)
     {
-        Dictionary<string, string> dataForDate = new Dictionary<string, string>();
-        dataForDate["Year"] = Model["Year"];
-        dataForDate["MonthIndex"] = Model["MonthIndex"];
-        dataForDate["Day"] = i.ToString();
-        <div class="date-placeholder"><a asp-controller="Callendar" asp-action="Date" asp-all-route-data="@dataForDate">@i</a></div>
+        newMonthIndexNext = 12;
+        dataForPrev["Year"] = (int.Parse(Model["Year"]) - 1).ToString();
     }
+    dataForPrev["MonthIndex"] = newMonthIndexNext.ToString();
+
+    Dictionary<string, string> dataForNext = new Dictionary<string, string>();
+    dataForNext["Year"] = Model["Year"];
+    dataForNext["Month"] = Model["Month"];
+    int newMonthIndexPrev = int.Parse(Model["MonthIndex"]) + 1;
+    if (newMonthIndexPrev > 12)
+    {
+        newMonthIndexPrev = 1;
+        dataForNext["Year"] = (int.Parse(Model["Year"]) + 1).ToString();
+    }
+    dataForNext["MonthIndex"] = newMonthIndexPrev.ToString();
+}
+<div class="callendar-header">
+    <div class="callendar-arrow-container">
+        <a asp-controller="Callendar" asp-action="Index" asp-all-route-data="dataForPrev" class="callendar-arrow"><span class="arrow-text arrow-left">&lt;</span></a>
+    </div>
+
+    <div class="callendar-title">@Model["Year"] / @Model["Month"]</div>
+    
+    <div class="callendar-arrow-container">
+        <a asp-controller="Callendar" asp-action="Index" asp-all-route-data="dataForNext" class="callendar-arrow"><span class="arrow-text">&gt;</span></a>
+    </div>
 </div>
 
-<div>
-    @{
-        Dictionary<string, string> dataForNext = new Dictionary<string, string>();
-        dataForNext["Year"] = Model["Year"];
-        dataForNext["Month"] = Model["Month"];
-        int newMonthIndexPrev = int.Parse(Model["MonthIndex"]) + 1;
-        if (newMonthIndexPrev > 12)
+<div class="callendar-contnent">
+    <div class="d-flex flex-wrap callendar-dates">
+        @for (int i = 1; i <= DateTime.DaysInMonth(int.Parse(Model["Year"]), int.Parse(Model["MonthIndex"])); i++)
         {
-            newMonthIndexPrev = 1;
-            dataForNext["Year"] = (int.Parse(Model["Year"]) + 1).ToString();
+            Dictionary<string, string> dataForDate = new Dictionary<string, string>();
+            dataForDate["Year"] = Model["Year"];
+            dataForDate["MonthIndex"] = Model["MonthIndex"];
+            dataForDate["Day"] = i.ToString();
+            dataForDate["SortType"] = "null";
+            dataForDate["SortOrder"] = "null";
+            <a asp-controller="Callendar" asp-action="Date" asp-all-route-data="@dataForDate" class="date-placeholder">@i</a>
         }
-        dataForNext["MonthIndex"] = newMonthIndexPrev.ToString();
-    }
-    <a asp-controller="Callendar" asp-action="Index" asp-all-route-data="dataForNext">&gt;</a>
+    </div>
 </div>
-
 <style>
-    .date-placeholder{
-        aspect-ratio: 1/1;
-        padding: 20px;
-        border: 1px solid white;
+    .callendar-header {
+        display: flex;
+        justify-content: space-between;
+    }   
+
+    .callendar-title{
+        width: 100%;
+        text-align: center;
+        font-size: 3.2rem;
+        margin: 50px 0;
+    }
+
+    .callendar-contnent {
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+        justify-content: center;    
+    }
+
+    .callendar-arrow-container {
+        flex: 0 0 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .callendar-arrow {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        color: white;
+        font-size: 2rem;
+        text-decoration: none;
+        margin-right: 10px;
+        margin-left: 10px;
+        text-align: center;
+
+        position: relative;
+
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .callendar-arrow > .arrow-text {
         width: 50px;
+        height: 55px;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-45%, -50%);
+        font-size: 2rem;
+        text-decoration: none;
+    }
+
+    .arrow-left{
+        transform: translate(-55%, -50%) !important;
+    }
+
+    .callendar-arrow:hover {
+        background-color: rgb(107, 107, 107);
+    }
+        
+    .callendar-dates {
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 1120px;
+        box-sizing: border-box;
+    }
+
+    .date-placeholder{
+        border: 1px solid rgb(107, 107, 107);
+        flex: 0 0 calc(100% / 8);
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;    
+        align-items: center;    
+        aspect-ratio: 1/1;
+        color: white;
+        text-decoration: none;
+        font-size: 1.8rem;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .date-placeholder:hover{
+        background-color: rgb(107, 107, 107);
+    }
+    @@media(max-width: 991px) {
+        .date-placeholder {
+            flex: 0 0 calc(100% / 5);
+        }
     }
 </style>

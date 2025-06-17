@@ -32,11 +32,11 @@ namespace MVCEventManager.Controllers
             return View(data);
         }
 
-        public async Task<IActionResult> Date(Dictionary<string, int> data)
+        public async Task<IActionResult> Date(Dictionary<string, string> data)
         {
-            int selectedYear = data["Year"];
-            int selectedMonth = data["MonthIndex"];
-            int selectedDay = data["Day"];
+            int selectedYear = int.Parse(data["Year"]);
+            int selectedMonth = int.Parse(data["MonthIndex"]);
+            int selectedDay = int.Parse(data["Day"]);
 
             List<Event> allEvents = context.ReadAllAsync()
                                         .Result
@@ -45,14 +45,31 @@ namespace MVCEventManager.Controllers
                                         .Where(x => x.EventStart.Day == selectedDay)
                                         .ToList();
 
-            DateViewModel viewModel = new DateViewModel
+            if (data["SortType"] == "Name")
             {
-                Events = allEvents,
-                Year = selectedYear,
-                MonthIndex = selectedMonth,
-                Month = months[selectedMonth],
-                Day = selectedDay
-            };
+                allEvents = allEvents.OrderBy(x => x.Name).ToList();
+            }
+            else if(data["SortType"] == "Location")
+            {
+                allEvents = allEvents.OrderBy(x => x.Location).ToList();
+            }
+            else if (data["SortType"] == "Time")
+            {
+                allEvents = allEvents.OrderBy(x => x.EventStart).ToList();
+            }
+
+            if (data["SortOrder"] == "Dec") allEvents.Reverse();
+
+            DateViewModel viewModel = new DateViewModel
+                {
+                    Events = allEvents,
+                    Year = selectedYear,
+                    MonthIndex = selectedMonth,
+                    Month = months[selectedMonth - 1],
+                    Day = selectedDay,
+                    SortType = data["SortType"],
+                    SortOrder = data["SortOrder"]
+                };
 
             return View(viewModel);
         }

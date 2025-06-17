@@ -2,19 +2,207 @@
 @model DateViewModel
 
 @{
-
     Dictionary<string,string> data = new Dictionary<string, string>();
     data["Date"] = $"{Model.Year}/{Model.Month}/{Model.Day}";
-    <a asp-controller="Events" asp-action="Create" asp-all-route-data="@data">Add Event</a>
 }
+<div class="date-top">
+    <h2 class="date-title">Your Events for @Model.Day/@Model.Month/@Model.Year</h2>
+    <a asp-controller="Events" asp-action="Create" asp-all-route-data="@data"><span class="date-add">+</span></a>
+</div>
 
-<h2>@Model.Year</h2>
-<h2>@Model.Month</h2>
-<h2>@Model.Day</h2>
+<div class="date-event-header">
+    @{
+        Dictionary<string, string> modelForName = new Dictionary<string, string>();
+        modelForName["Year"] = Model.Year.ToString();
+        modelForName["MonthIndex"] = Model.MonthIndex.ToString();
+        modelForName["Day"] = Model.Day.ToString();
 
+        if (Model.SortType == "Name")
+        {
+            modelForName["SortType"] = "Name";
+            if (Model.SortOrder == "Inc")
+                modelForName["SortOrder"] = "Dec";
+            else
+                modelForName["SortOrder"] = "Inc";
+        }
+        else
+        {
+            modelForName["SortType"] = "Name";
+            modelForName["SortOrder"] = "Inc";
+        }
+
+        Dictionary<string, string> modelForLocation = new Dictionary<string, string>();
+        modelForLocation["Year"] = Model.Year.ToString();
+        modelForLocation["MonthIndex"] = Model.MonthIndex.ToString();
+        modelForLocation["Day"] = Model.Day.ToString();
+
+        if (Model.SortType == "Location")
+        {
+            modelForLocation["SortType"] = "Location";
+            if (Model.SortOrder == "Inc")
+                modelForLocation["SortOrder"] = "Dec";
+            else
+                modelForLocation["SortOrder"] = "Inc";
+        }
+        else
+        {
+            modelForLocation["SortType"] = "Location";
+            modelForLocation["SortOrder"] = "Inc";
+        }
+
+        Dictionary<string, string> modelForTime = new Dictionary<string, string>();
+        modelForTime["Year"] = Model.Year.ToString();
+        modelForTime["MonthIndex"] = Model.MonthIndex.ToString();
+        modelForTime["Day"] = Model.Day.ToString();
+
+        if (Model.SortType == "Time")
+        {
+            modelForTime["SortType"] = "Time";
+            if (Model.SortOrder == "Inc")
+                modelForTime["SortOrder"] = "Dec";
+            else
+                modelForTime["SortOrder"] = "Inc";
+        }
+        else
+        {
+            modelForTime["SortType"] = "Time";
+            modelForTime["SortOrder"] = "Inc";
+        }
+    }
+    <a class="date-event-link" asp-controller="Callendar" asp-action="Date" asp-all-route-data="modelForName">
+        Name
+        @{
+            if (Model.SortType == "Name")
+            {
+                if (Model.SortOrder == "Inc")
+                {
+                    <span>&#9660;</span>
+                }
+                else
+                {
+                    <span>&#9650;</span>
+                }
+            }
+        }
+    </a>
+    <a class="date-event-link" asp-controller="Callendar" asp-action="Date" asp-all-route-data="modelForLocation">
+        Location
+        @{
+            if (Model.SortType == "Location")
+            {
+                if (Model.SortOrder == "Inc")
+                {
+                    <span>&#9660;</span>
+                }
+                else
+                {
+                    <span>&#9650;</span>
+                }
+            }
+        }
+    </a>
+    <a class="date-event-link" asp-controller="Callendar" asp-action="Date" asp-all-route-data="modelForTime">
+        Start
+        @{
+            if (Model.SortType == "Time")
+            {
+                if (Model.SortOrder == "Inc")
+                {
+                    <span>&#9660;</span>
+                }
+                else
+                {
+                    <span>&#9650;</span>
+                }
+            }
+        }
+    </a>
+</div>
 @foreach (Event e in Model.Events)
 {
-    <div>
-        <h2>@e.Name</h2>
-    </div>
+    <a class="date-event" asp-controller="Events" asp-action="Details" asp-route-id="@e.Id">
+        <div class="date-event-name">@e.Name</div>
+        <div class="date-event-location">@e.Location</div>
+        <div class="date-event-date">@e.EventStart.ToString("HH:mm")</div>
+    </a>
 }
+
+<style>
+    .date-top {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+
+    .date-top > a{
+        border-radius: 30px;
+        width: 60px;
+        height: 60px;
+        text-decoration: none;
+        text-align: center;
+        position: relative;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .date-top > a:hover {
+        background-color: rgb(100, 100, 100);
+    }
+
+    .date-add{
+        font-size: 3rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -55%);
+    }
+
+    .date-title {
+        font-size: 3.2rem;
+        margin: 50px 0;
+    }
+
+    .date-event-header {
+        width: 40%;
+        height: 55px;
+        min-width: 300px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 25px;
+        border-bottom: 0.5px solid rgb(110, 110, 110);
+        margin-bottom: 40px;
+    }
+
+    .date-event-link {
+        text-decoration: none;
+        font-size: 1.3rem;
+    }
+
+    .date-event{
+        width: 40%;
+        height: 55px;
+        min-width: 300px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 25px;
+        border-radius: 20px;
+        border: 0.5px solid rgb(110, 110, 110);
+        transition: background-color 0.2s ease-in-out;
+        cursor: pointer;
+        margin-bottom: 40px;
+        text-decoration: none;
+    }
+
+    .date-event > div {
+        font-size: 1.4rem;
+        text-decoration: none;
+    }
+
+    .date-event:hover {
+        background-color: rgb(76, 76, 76);
+        border: 0.5px solid rgb(130, 130, 130);
+    }
+</style>
