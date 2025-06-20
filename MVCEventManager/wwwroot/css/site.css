@@ -27,6 +27,73 @@ body {
     background-color: rgb(82, 82, 82);
 }
 
+
+input {
+    color: #fff !important;
+    background-color: rgb(70, 70, 70) !important;
+    border: 1px solid #fff;
+}
+    input:focus, input:active, input:hover {
+        color: white !important;
+        -webkit-text-fill-color: #fff !important; 
+    }
+
+    input::placeholder {
+        color: rgba(255, 255, 255, 0.3) !important; 
+        opacity: 0.7 !important;
+    }
+
+    input::placeholder:hover {
+        color: rgba(255, 255, 255, 0.3) !important;
+        opacity: 0.7 !important;
+    }
+
+    input:-webkit-autofill {
+        -webkit-text-fill-color: #fff !important; 
+        box-shadow: 0 0 0 1000px #444 inset !important;
+        -webkit-text-fill-color: #fff !important;
+        caret-color: #fff !important;
+    }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+        input[type="time"]::-webkit-calendar-picker-indicator,
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(1); /* Inverts the icon color */
+            opacity: 1;
+        }
+
+        input[type="time"]::-webkit-calendar-picker-indicator,
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(1); 
+            opacity: 1;
+        }
+
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            color: white !important;
+            fill: white !important;
+            filter: invert(1)!important; 
+            opacity: 1;
+        }
+
+
+
+.form-label::after {
+    background-color: transparent !important;
+    color: white !important; 
+}
+
+.form-label {
+    color: lightgrey !important;
+}
+
 footer {
     background-color: rgb(64, 64, 64) !important;
 }

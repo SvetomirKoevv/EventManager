@@ -55,7 +55,7 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("DataLayer.User", b =>

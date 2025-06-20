@@ -28,7 +28,7 @@ namespace SeedingLayer
 
                 DbContextOptionsBuilder builder = new DbContextOptionsBuilder();
                 builder.UseSqlServer(
-                    "Server=DESKTOP-RD8LV0K;Database=EventManager;Trusted_Connection=True;Encrypt=False"
+                    "Server=TIMI-PCL\\LAPTOP;Database=EventManager;Trusted_Connection=True;Encrypt=False"
                 );
 
                 EventManagerDbContext dbContext = new EventManagerDbContext(builder.Options);
@@ -45,8 +45,8 @@ namespace SeedingLayer
 
                 IdentityContext identityContext = new IdentityContext(dbContext, userManager);
 
-                //dbContext.Roles.Add(new IdentityRole(Role.ADMINISTRATOR.ToString()) { NormalizedName = "ADMINISTRATOR" });
-                //dbContext.Roles.Add(new IdentityRole(Role.USER.ToString()) { NormalizedName = "USER" });
+                dbContext.Roles.Add(new IdentityRole(Role.ADMINISTRATOR.ToString()) { NormalizedName = "ADMINISTRATOR" });
+                dbContext.Roles.Add(new IdentityRole(Role.USER.ToString()) { NormalizedName = "USER" });
                 await dbContext.SaveChangesAsync();
 
 

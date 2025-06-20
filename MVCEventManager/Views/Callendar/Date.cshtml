@@ -3,11 +3,13 @@
 
 @{
     Dictionary<string,string> data = new Dictionary<string, string>();
-    data["Date"] = $"{Model.Year}/{Model.Month}/{Model.Day}";
+    data["Year"] = Model.Year.ToString();
+    data["Month"] = Model.MonthIndex.ToString();
+    data["Day"] = Model.Day.ToString();
 }
 <div class="date-top">
     <h2 class="date-title">Your Events for @Model.Day/@Model.Month/@Model.Year</h2>
-    <a asp-controller="Events" asp-action="Create" asp-all-route-data="@data"><span class="date-add">+</span></a>
+    <a asp-controller="Events" asp-action="CreateTime" asp-all-route-data="@data"><span class="date-add">+</span></a>
 </div>
 
 <div class="date-event-header">
