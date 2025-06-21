@@ -1,0 +1,32 @@
+﻿@using MVCEventManager.Models
+@using MVCEventManager.Models.OtherModels
+@using MVCEventManager.Services
+@using Newtonsoft.Json
+@model List<MessageModel>
+@foreach (var msg in Model)
+{
+    <div class="alert">
+        <p class="alert-title">Alert!</p>
+        <div class="alert-message">
+            @msg.Message
+        </div>
+    </div>
+}
+<style>
+    .alert {
+        width: 400px;
+        height: 100px;
+        margin: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: var(--foreground-color);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+    
+    .alert-title {
+        height: 60px;
+        text-transform: uppercase !important;
+        font-weight: bold !important;
+    }
+</style>

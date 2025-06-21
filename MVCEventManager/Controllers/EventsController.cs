@@ -14,6 +14,8 @@ using Newtonsoft.Json;
 using Microsoft.SqlServer.Server;
 using Microsoft.Identity.Client;
 using Microsoft.Build.Framework;
+using MVCEventManager.Services;
+using MVCEventManager.Models.OtherModels;
 
 namespace MVCEventManager.Controllers
 {
@@ -99,7 +101,7 @@ namespace MVCEventManager.Controllers
                                                       model.DateOnly.Day, 
                                                       model.TimeOnly.Hour, 
                                                       model.TimeOnly.Minute, 
-                                                      1);
+                                                      0);
                 Event newEvent = new Event()
                 {
                     Name = model.Name,
@@ -108,7 +110,15 @@ namespace MVCEventManager.Controllers
                     Location = model.Location,
                     MaxAttendees = model.MaxAttendees
                 };
+                MessageModel newMessage = new MessageModel
+                {
+                    Message = $"New event scheduled for {newEvent.EventStart.ToString("yyyy/MM/dd - HH:mm")}"
+                };
+                List<MessageModel> newMessages = TempData.Peek("UserMessages") != null ? JsonConvert.DeserializeObject<List<MessageModel>>(TempData.Peek("UserMessages") as string) : new List<MessageModel>();
+                newMessages.Add(newMessage);
 
+                TempData["UserMessages"] = JsonConvert.SerializeObject(newMessages);
+                
                 await context.CreateAsync(newEvent);
                 return RedirectToAction(nameof(Index));
             }

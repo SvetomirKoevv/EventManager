@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using MVCEventManager.Models.OtherModels
+@using MVCEventManager.Services
+@using Newtonsoft.Json
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,6 +13,8 @@
     <link rel="stylesheet" href="~/MVCEventManager.styles.css" asp-append-version="true" />
 </head>
 <body>
+    <div class="alert-container" id="myPartialViewContainer">
+    </div>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark mb-3">
             <div class="container-fluid">
@@ -31,6 +36,9 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <div>
+                @TempData.Peek("UserMessages")
+            </div>
             @RenderBody()
         </main>
     </div>
@@ -43,6 +51,22 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        setInterval(function () {
+            $("#myPartialViewContainer").load('@Url.Action("_AlertsPartial", "Home", new { messagesJson = ViewData["UserMessages"] })');
+        }, 1000);
+
+
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<style>
+    .alert-container {
+        position: absolute;
+        top: 90px;
+        right: 130px;
+        width: 320px;
+    }
+</style>
