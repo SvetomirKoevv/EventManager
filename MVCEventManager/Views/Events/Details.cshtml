@@ -1,48 +1,76 @@
-﻿@model BusinessLayer.Event
-
+﻿@using MVCEventManager.Controllers
+@model BusinessLayer.Event
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Name;
+    string monthName = CallendarController.Months[Model.EventStart.Month];
+    string dayOfWeek = Model.EventStart.DayOfWeek.ToString();
 }
 
-<h1>Details</h1>
+<div class="event-container">
 
-<div>
-    <h4>Event</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventStart)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventStart)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaxAttendees)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaxAttendees)
-        </dd>
-    </dl>
+    <div class="event-title flex-column">
+        <p class="title">@Model.Name</p>
+        <hr style="width: 100%;"/>
+    </div>
+    
+    <div class="event-time-place flex-column">
+        <div class="event-time"><p class="time-place">@Model.EventStart.Day/@monthName,  @Model.EventStart.Year</p></div>
+        <div class="event-place"><p class="time-place">@dayOfWeek | @Model.EventStart.ToString("HH:mm")</p></div>
+    </div>
+    <div class="event-description">
+        <p class="description">@Html.Raw(Model.Description.ReplaceLineEndings("<br>"))</p>
+    </div>
+    <div class="event-max-attendees justify-content-end">@(Model.MaxAttendees > 0 ? "Max Attendees: " + Model.MaxAttendees.ToString() : "")</div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<style>
+    .event-container {
+        width: 60%;
+        border-radius: 12px;
+        border: 0.3px solid lightgrey;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+        padding: 30px 0px;
+        gap: 45px;
+        font-weight: 400 !important;
+        min-width: 480px;
+    }
+
+    .event-container > div{
+        width: 85%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .event-time-place > div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .title {
+        font-size: 2.1rem;
+        text-transform: uppercase;
+        text-align: center; 
+    }
+
+    .time-place {
+        font-size: 1.7rem;
+        text-transform: uppercase;
+    }
+
+    .event-place .time-place {
+        font-size: 1.5rem;
+    }
+
+    .description {
+        font-size: 1.15rem;
+        padding-top: 60px;
+        width: 90%;
+        text-align: justify;
+    }
+</style>

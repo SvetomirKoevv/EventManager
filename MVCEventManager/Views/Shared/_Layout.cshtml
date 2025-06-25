@@ -2,7 +2,7 @@
 @using MVCEventManager.Services
 @using Newtonsoft.Json
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MVCEventManager.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="alert-container" id="myPartialViewContainer">
@@ -36,9 +39,6 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            <div>
-                @TempData.Peek("UserMessages")
-            </div>
             @RenderBody()
         </main>
     </div>
@@ -65,6 +65,7 @@
 <style>
     .alert-container {
         position: absolute;
+        z-index: 2;
         top: 90px;
         right: 130px;
         width: 320px;

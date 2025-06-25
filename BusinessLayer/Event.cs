@@ -18,12 +18,12 @@ namespace BusinessLayer
         [Required]
         public string Name { get; set; }
 
-
         [Required]
         public string Description { get; set; }
 
         [Required]
         [Column(TypeName = "datetime2")]
+        [FutureDate(ErrorMessage = "Event start must be in the future!")]
         public DateTime EventStart { get; set; }
 
         [Required]

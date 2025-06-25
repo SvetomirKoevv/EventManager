@@ -7,7 +7,7 @@
 
         public MessageModel()
         {
-            Expires = DateTime.Now.AddSeconds(20);
+            Expires = DateTime.Now.AddSeconds(10);
         }
     }
 }

@@ -9,20 +9,14 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table table-dark">
-    <thead>
+<table class="my-table">
+    <thead style="background-color: rgb(55, 55, 55);">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.EventStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MaxAttendees)
@@ -30,30 +24,62 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaxAttendees)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+    <tbody class="tbody">
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaxAttendees)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+    }
     </tbody>
 </table>
+<style>
+    .my-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 1rem;
+        line-height: 1.5;
+        border: 0.3px solid rgba(255, 255, 255, 0.2);
+    }
+
+        .my-table th,
+        .my-table td {
+            padding: 0.75rem;
+            vertical-align: top;
+        }
+
+        .my-table thead th {
+            vertical-align: bottom;
+            background-color: rgb(70, 70, 70);
+        }
+
+        .my-table thead tr {
+            background-color: rgb(55, 55, 55);
+        }
+
+        .my-table tbody tr:nth-child(even) {
+            background-color: rgb(65, 65, 65);
+            color: white;
+            border: 0.3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .my-table tbody tr:nth-child(odd) {
+            background-color: rgb(55, 55, 55);
+            color: white;
+            border: 0.3px solid rgba(255, 255, 255, 0.2);
+        }
+
+
+</style>

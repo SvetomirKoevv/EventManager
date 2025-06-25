@@ -9,7 +9,7 @@ namespace MVCEventManager.Controllers
     public class CallendarController : Controller
     {
         private readonly EventContext context;
-        private readonly string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+        public static readonly string[] Months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
 
         public CallendarController(EventContext context)
         {
@@ -22,12 +22,12 @@ namespace MVCEventManager.Controllers
             {
                 data = new Dictionary<string, string>();
                 data["Year"] = DateTime.Now.Year.ToString();
-                data["Month"] = months[DateTime.Now.Month - 1];
+                data["Month"] = Months[DateTime.Now.Month - 1];
                 data["MonthIndex"] = DateTime.Now.Month.ToString();
             }
             else
             {
-                data["Month"] = months[int.Parse(data["MonthIndex"]) - 1];
+                data["Month"] = Months[int.Parse(data["MonthIndex"]) - 1];
             }
             return View(data);
         }
@@ -65,7 +65,7 @@ namespace MVCEventManager.Controllers
                     Events = allEvents,
                     Year = selectedYear,
                     MonthIndex = selectedMonth,
-                    Month = months[selectedMonth - 1],
+                    Month = Months[selectedMonth - 1],
                     Day = selectedDay,
                     SortType = data["SortType"],
                     SortOrder = data["SortOrder"]

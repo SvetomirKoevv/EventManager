@@ -8,7 +8,10 @@
 
 h1, h2, h3, h4, h5, h6, span, p, a, div {
     color: white !important;
-    font-weight: 100 !important;
+    font-weight: 200 !important;
+    font-family: 'Calibri', sans-serif !important;
+    font-optical-sizing: auto !important;
+    font-style: normal !important;
 }
 
 html {
@@ -36,22 +39,25 @@ body {
 }
 
 
-input {
+input, textarea {
     color: #fff !important;
     background-color: var(--foreground-color) !important;
     border: 1px solid #fff;
 }
-    input:focus, input:active, input:hover {
+    input:focus, input:active, input:hover,
+    textarea:focus, textarea:active, textarea:hover {
         color: white !important;
-        -webkit-text-fill-color: #fff !important; 
+        -webkit-text-fill-color: #fff !important;
     }
 
-    input::placeholder {
-        color: rgba(255, 255, 255, 0.3) !important; 
+    input::placeholder,
+    textarea::placeholder{
+        color: rgba(255, 255, 255, 0.3) !important;
         opacity: 0.7 !important;
     }
 
-    input::placeholder:hover {
+    input::placeholder:hover,
+    textarea::placeholder{
         color: rgba(255, 255, 255, 0.3) !important;
         opacity: 0.7 !important;
     }
@@ -74,7 +80,7 @@ input {
 
         input[type="time"]::-webkit-calendar-picker-indicator,
         input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-            filter: invert(1); /* Inverts the icon color */
+            filter: invert(1); 
             opacity: 1;
         }
 

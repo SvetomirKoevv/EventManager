@@ -19,7 +19,7 @@ namespace DataLayer
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=TIMI-PCL\\LAPTOP;Database=EventManager;Trusted_Connection=True;Encrypt=False");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-RD8LV0K;Database=EventManager;Trusted_Connection=True;Encrypt=False");
             }
         }
 

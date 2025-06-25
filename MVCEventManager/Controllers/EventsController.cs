@@ -16,6 +16,7 @@ using Microsoft.Identity.Client;
 using Microsoft.Build.Framework;
 using MVCEventManager.Services;
 using MVCEventManager.Models.OtherModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace MVCEventManager.Controllers
 {
@@ -47,7 +48,7 @@ namespace MVCEventManager.Controllers
             return View(@event);
         }
 
-        //[Authorize(Roles = "ADMINISTRATOR, USER")]
+        [Authorize(Roles = "ADMINISTRATOR, USER")]
         public async Task<IActionResult> CreateTime(Dictionary<string, string> dateHolder)
         {
 
@@ -79,6 +80,7 @@ namespace MVCEventManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR, USER")]
         public async Task<IActionResult> CreateTime(EventTimeCreateModel model)
         {
             TempData["CreateTimeTemp"] = JsonConvert.SerializeObject(model);
@@ -90,11 +92,18 @@ namespace MVCEventManager.Controllers
             }
 
             User loggedInUser = await userManager.FindByNameAsync(User.Identity.Name);
-
-            ModelState.Clear();
             model.Creator = loggedInUser;
 
-            if (ModelState.IsValid)
+            if (!model.IsDateAndTimeValid)
+            {
+                model.DateAndTimeValidatedText = "Time must be after the current time!";
+                return View(model);
+            }
+
+            if (ModelState[nameof(EventTimeCreateModel.Name)].Errors.Count > 0 ||
+                ModelState[nameof(EventTimeCreateModel.Description)].Errors.Count > 0 ||
+                ModelState[nameof(EventTimeCreateModel.TimeOnly)].Errors.Count > 0 ||
+                ModelState[nameof(EventTimeCreateModel.Location)].Errors.Count > 0)
             {
                 DateTime eventDateTime = new DateTime(model.DateOnly.Year, 
                                                       model.DateOnly.Month, 
@@ -118,7 +127,8 @@ namespace MVCEventManager.Controllers
                 newMessages.Add(newMessage);
 
                 TempData["UserMessages"] = JsonConvert.SerializeObject(newMessages);
-                
+                TempData.Remove("CreateTimeTemp");
+
                 await context.CreateAsync(newEvent);
                 return RedirectToAction(nameof(Index));
             }
@@ -140,22 +150,41 @@ namespace MVCEventManager.Controllers
             {
                 return Unauthorized();
             }
-
-            ModelState.Clear();
             @event.Creator = loggedInUser;
+            
+            if (ModelState[nameof(Event.EventStart)].Errors.Count > 0)
+            {
+                return View();
+            }
+
+            ModelState.ClearValidationState(nameof(Event.Creator));
+            TryValidateModel(@event);
 
             if (ModelState.IsValid)
             {
                 await context.CreateAsync(@event);
                 return RedirectToAction(nameof(Index));
             }
+
             return View(@event);
         }
 
+        [Authorize(Roles = "ADMINISTRATOR, USER")]
         public async Task<IActionResult> Edit(int id)
         {
+            var @event = await context.ReadAsync(id, true);
 
-            var @event = await context.ReadAsync(id);
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+
+            User loggedInUser = await userManager.FindByNameAsync(User.Identity.Name);
+
+            if (@event.Creator != loggedInUser)
+            {
+                return Unauthorized();
+            }
             
             if (@event == null)
             {
@@ -167,8 +196,30 @@ namespace MVCEventManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR, USER")]
         public async Task<IActionResult> Edit(Event @event)
         {
+            if (ModelState[nameof(Event.EventStart)].Errors.Count > 0)
+            {
+                return View();
+            }
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+
+            User loggedInUser = await userManager.FindByNameAsync(User.Identity.Name);
+            Event eventFromDb = await context.ReadAsync(@event.Id, true);
+            if (eventFromDb.Creator != loggedInUser)
+            {
+                return Unauthorized();
+            }
+
+            @event.Creator = loggedInUser;
+
+            ModelState.ClearValidationState(nameof(Event.Creator));
+            TryValidateModel(@event);
 
             if (ModelState.IsValid)
             {
