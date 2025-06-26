@@ -1,9 +1,14 @@
 :root {
-    --background-color: rgb(82, 82, 82);
+    --background-color: rgb(84, 84, 84);
     --darker-bacground-color: rgb(64, 64, 64);
     --foreground-color: rgb(70, 70, 70);
+    --foreground-color-hover: rgb(73, 73, 73);
     --font-color-normal: white;
     --font-color-lighter: lightgrey;
+    --yellow-normal: #ffc107;
+    --yellow-hover: #e0a800;
+    --cyan-normal: #00bcd4;
+    --cyan-hover: #0097a7;
 }
 
 h1, h2, h3, h4, h5, h6, span, p, a, div {
@@ -38,7 +43,13 @@ body {
     background-color: var(--background-color);
 }
 
-
+.link {
+    color: var(--cyan-normal) !important;
+    transition: color 0.1s ease-in;
+}
+.link:hover {
+    color: var(--cyan-hover) !important;
+}
 input, textarea {
     color: #fff !important;
     background-color: var(--foreground-color) !important;
@@ -115,6 +126,27 @@ footer {
 header {
     background-color: var(--darker-bacground-color) !important;
 }
+
+.submit-button {
+    background-color: var(--yellow-normal) !important;
+    color: black !important;
+    border: none !important;
+    transition: background-color 0.2s ease !important;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;    
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-align: center;
+}
+
+    .submit-button:hover {
+        background-color: var(--yellow-hover) !important;
+        color: black !important;
+    }
+
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
