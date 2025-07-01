@@ -1,0 +1,147 @@
+﻿@page
+@using BusinessLayer
+@model MVCEventManager.Areas.Identity.Pages.Account.Manage.YourEventsModel
+
+<div class="events-container">
+    @foreach(Event e in Model.Events)
+    {
+        <div class="event-con">
+            <div class="a">
+                <a class="event-delete event-icon" asp-controller="Events" asp-action="Delete" asp-route-id="@e.Id">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                    </svg>
+                </a>
+            </div>
+            <div class="a">
+                <a class="event-edit event-icon" asp-controller="Events" asp-action="Edit" asp-route-id="@e.Id">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-pencil" viewBox="0 0 16 16">
+                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                    </svg>
+                </a>
+            </div>
+            <a class="event" asp-controller="Events" asp-action="Details" asp-route-id="@e.Id">
+                
+                <div class="title">@e.Name</div>
+            </a>
+        </div>
+    }
+</div>
+
+<style>
+    .events-container{
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    .event-con{
+        max-width: calc((100% - 40px)/3);
+        flex: 1 calc((100% - 40px)/3);
+        aspect-ratio: 16/11;
+        border: 0.1px solid #707070;
+        border-radius: 7px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .event-con:hover .event-icon{
+        display: block; 
+    }
+
+    .event{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        text-decoration: none;
+        padding: 10px;
+    }
+    
+    .event:hover{
+        opacity: 0.8;
+        border-color: #909090;
+    }
+
+    .title{
+        font-size: 1.5rem;
+        height: 100%;
+    }
+
+    .event-icon{
+        border-radius: 7px;
+        z-index: 2 !important;
+    }
+
+    .event-delete {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        background-color: none;
+        border: 0.5px solid red;
+        width: 30px;
+        height: 30px;
+        display: none;
+        fill: red;
+        transition-duration: 0s;
+    }
+
+        .event-delete:hover {
+            fill: white;
+            background-color: red;
+            transition-duration: 0s;
+        }
+
+    .event-edit {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        background-color: none;
+        border: 0.5px solid green;
+        width: 30px;
+        height: 30px;
+        display: none;
+        fill: green;
+        transition-duration: 0s;
+    }
+
+        .event-edit:hover {
+            fill: white;
+            background-color: green;
+            transition-duration: 0s;
+        }
+
+    @@media(max-width: 992px) {
+        .events-container {
+            margin-top: 25px;
+            margin: 25px auto;
+        }
+    }
+
+    @@media(max-width: 768px) {
+        .event-con {
+            max-width: calc((100% - 20px)/2);
+            flex-basis: calc((100% - 20px)/2);
+        }
+    }
+
+    @@media(max-width: 420px) {
+        .event-con {
+            max-width: calc((100% - 20px));
+            flex-basis: calc((100% - 20px));
+        }
+
+        .events-container {
+            justify-content: center;
+        }
+    }
+</style>
