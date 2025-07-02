@@ -6,10 +6,18 @@
     data["Year"] = Model.Year.ToString();
     data["Month"] = Model.MonthIndex.ToString();
     data["Day"] = Model.Day.ToString();
+    DateTime date = new DateTime(Model.Year, Model.MonthIndex, Model.Day, 0, 0, 0);
 }
 <div class="date-top">
     <h2 class="date-title">Your Events for @Model.Day/@Model.Month/@Model.Year</h2>
-    <a asp-controller="Events" asp-action="CreateTime" asp-all-route-data="@data"><span class="date-add">+</span></a>
+    @if (!(date >= DateTime.Now.Date))
+    {
+        <p>Cant add events to previous dates!</p> 
+    }
+    else 
+    {
+        <a asp-controller="Events" asp-action="CreateTime" asp-all-route-data="@data"><span class="date-add">+</span></a>
+    }
 </div>
 
 <div class="date-event-header">

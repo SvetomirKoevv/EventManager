@@ -7,6 +7,8 @@
 
 <div class="register-container">
     <form id="registerForm" asp-route-returlUrl="@Model.ReturnUrl" method="post">
+        <input type="hidden" asp-for="ReturnUrl" />
+
         <h2 class="register-title">Log In</h2>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>

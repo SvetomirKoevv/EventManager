@@ -33,8 +33,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Callendar" asp-action="Index">Your Callendar</a>
                         </li>
-                        <partial name="_LoginPartial" />
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Events" asp-action="Create">Add Event</a>
+                        </li>
                     </ul>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>

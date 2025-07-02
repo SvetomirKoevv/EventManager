@@ -1,25 +1,16 @@
-﻿@model IEnumerable<BusinessLayer.Event>
-
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+﻿@page
+@model MVCEventManager.Areas.Identity.Pages.Account.Manage.AdminPanelModel
 <table class="events-table">
     <thead style="background-color: rgb(55, 55, 55);">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Events[0].Name)
             </th>
             <th>
                 Start of Event
             </th>
             <th>
-                Max Attendees
+                Creator
             </th>
             <th>
                 Actions
@@ -27,7 +18,7 @@
         </tr>
     </thead>
     <tbody class="tbody">
-    @foreach (var item in Model) {
+    @foreach (var item in Model.Events) {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -36,12 +27,11 @@
                     @Html.DisplayFor(modelItem => item.EventStart)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MaxAttendees)
+                    @Html.DisplayFor(modelItem => item.Creator.UserName)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">Delete</a>
+                    <a asp-controller="Events" asp-action="Details" asp-route-id="@item.Id" asp-route-returnUrl="@Request.Path">Details</a> |
+                    <a asp-controller="Events" asp-action="Delete" asp-route-id="@item.Id" asp-route-returnUrl="@Request.Path">Delete</a>
                 </td>
             </tr>
     }
@@ -81,6 +71,13 @@
             background-color: rgb(55, 55, 55);
             color: white;
             border: 0.3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @@media(max-width: 992px) {
+            .events-table {
+                margin-top: 25px;
+                margin: 25px auto;
+            }
         }
 
 

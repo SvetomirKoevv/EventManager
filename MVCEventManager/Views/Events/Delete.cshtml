@@ -1,5 +1,6 @@
 ﻿@using MVCEventManager.Controllers
-@model BusinessLayer.Event
+@using MVCEventManager.Models.EventModels
+@model ReturnEventModel
 @{
     ViewData["Title"] = "Delete" + Model.Name;
     string monthName = CallendarController.Months[Model.EventStart.Month];
@@ -9,6 +10,7 @@
     <a asp-asp-controller="Events" asp-action="Index">Back To List</a>
     |
     <form asp-action="Delete">
+        <input asp-for="ReturnUrl" type="hidden" />
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>
 </div>

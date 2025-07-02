@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using MVCEventManager.Models.OtherModels;
+using Newtonsoft.Json;
 using ServiceLayer;
 
 namespace MVCEventManager.Areas.Identity.Pages.Account
@@ -100,7 +102,14 @@ namespace MVCEventManager.Areas.Identity.Pages.Account
                 if (result.IdentityResult.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
+                    
+                    MessageModel newMessage = new MessageModel
+                    {
+                        Message = $"Registered in successfully!"
+                    };
+                    List<MessageModel> newMessages = TempData.Peek("UserMessages") != null ? JsonConvert.DeserializeObject<List<MessageModel>>(TempData.Peek("UserMessages") as string) : new List<MessageModel>();
+                    newMessages.Add(newMessage);
+                    
                     await _signInManager.SignInAsync(result.Entity, isPersistent: false);
                     return LocalRedirect(returnUrl);
                     

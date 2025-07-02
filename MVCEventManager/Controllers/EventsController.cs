@@ -67,6 +67,19 @@ namespace MVCEventManager.Controllers
 
             DateTime dateTime = new DateTime(y, m, d);
 
+            if (dateTime < DateTime.Now.Date)
+            {
+                MessageModel newMessage = new MessageModel
+                {
+                    Message = $"Date Cannot be in the past!"
+                };
+                List<MessageModel> newMessages = TempData.Peek("UserMessages") != null ? JsonConvert.DeserializeObject<List<MessageModel>>(TempData.Peek("UserMessages") as string) : new List<MessageModel>();
+                newMessages.Add(newMessage);
+
+                TempData["UserMessages"] = JsonConvert.SerializeObject(newMessages);
+                return RedirectToAction("Index", "Home");
+            }
+
             EventTimeCreateModel newModel = new EventTimeCreateModel()
             {
                 DateOnly = dateTime,
@@ -100,10 +113,10 @@ namespace MVCEventManager.Controllers
                 return View(model);
             }
 
-            if (ModelState[nameof(EventTimeCreateModel.Name)].Errors.Count > 0 ||
-                ModelState[nameof(EventTimeCreateModel.Description)].Errors.Count > 0 ||
-                ModelState[nameof(EventTimeCreateModel.TimeOnly)].Errors.Count > 0 ||
-                ModelState[nameof(EventTimeCreateModel.Location)].Errors.Count > 0)
+            if (ModelState[nameof(EventTimeCreateModel.Name)].Errors.Count == 0 &&
+                ModelState[nameof(EventTimeCreateModel.Description)].Errors.Count == 0 &&
+                ModelState[nameof(EventTimeCreateModel.TimeOnly)].Errors.Count == 0 &&
+                ModelState[nameof(EventTimeCreateModel.Location)].Errors.Count == 0)
             {
                 DateTime eventDateTime = new DateTime(model.DateOnly.Year, 
                                                       model.DateOnly.Month, 
@@ -135,6 +148,7 @@ namespace MVCEventManager.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "ADMINISTRATOR, USER")]
         public async Task<IActionResult> Create()
         {
             return View();
@@ -170,9 +184,22 @@ namespace MVCEventManager.Controllers
         }
 
         [Authorize(Roles = "ADMINISTRATOR, USER")]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, string returnUrl)
         {
             var @event = await context.ReadAsync(id, true);
+
+            if (@event.EventStart < DateTime.Now)
+            {
+                MessageModel newMessage = new MessageModel
+                {
+                    Message = $"Cannot edit past events!"
+                };
+                List<MessageModel> newMessages = TempData.Peek("UserMessages") != null ? JsonConvert.DeserializeObject<List<MessageModel>>(TempData.Peek("UserMessages") as string) : new List<MessageModel>();
+                newMessages.Add(newMessage);
+
+                TempData["UserMessages"] = JsonConvert.SerializeObject(newMessages);
+                return LocalRedirect(returnUrl);
+            }
 
             if (!User.Identity.IsAuthenticated)
             {
@@ -191,13 +218,23 @@ namespace MVCEventManager.Controllers
                 return NotFound();
             }
             
-            return View(@event);
+            ReturnEventModel editEventModel = new ReturnEventModel
+            {
+                Id = @event.Id,
+                Name = @event.Name,
+                Description = @event.Description,
+                Location = @event.Location,
+                MaxAttendees = @event.MaxAttendees,
+                ReturnUrl = returnUrl
+            };
+
+            return View(editEventModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "ADMINISTRATOR, USER")]
-        public async Task<IActionResult> Edit(Event @event)
+        public async Task<IActionResult> Edit(ReturnEventModel @event)
         {
             if (ModelState[nameof(Event.EventStart)].Errors.Count > 0)
             {
@@ -238,31 +275,41 @@ namespace MVCEventManager.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return LocalRedirect(@event.ReturnUrl);
             }
             return View(@event);
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, string returnUrl)
         {
 
-            var @event = await context.ReadAsync(id);
+            Event @event = await context.ReadAsync(id);
             
             if (@event == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            ReturnEventModel deleteEventModel = new ReturnEventModel
+            {
+                Id = @event.Id,
+                Name = @event.Name,
+                Description = @event.Description,
+                Location = @event.Location,
+                MaxAttendees = @event.MaxAttendees,
+                ReturnUrl = returnUrl
+            };
+
+            return View(deleteEventModel);  
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, string returnUrl)
         {
             await context.DeleteAsync(id);
 
-            return RedirectToAction(nameof(Index));
+            return LocalRedirect(returnUrl);
         }
 
         private bool EventExists(int id)

@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using BusinessLayer;
+using MVCEventManager.Models.OtherModels;
+using Newtonsoft.Json;
 
 namespace MVCEventManager.Areas.Identity.Pages.Account
 {
@@ -80,6 +82,14 @@ namespace MVCEventManager.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    MessageModel newMessage = new MessageModel
+                    {
+                        Message = $"Logged in successfully!"
+                    };
+                    List<MessageModel> newMessages = TempData.Peek("UserMessages") != null ? JsonConvert.DeserializeObject<List<MessageModel>>(TempData.Peek("UserMessages") as string) : new List<MessageModel>();
+                    newMessages.Add(newMessage);
+
+                    TempData["UserMessages"] = JsonConvert.SerializeObject(newMessages);
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
