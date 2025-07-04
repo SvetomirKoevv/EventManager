@@ -1,22 +1,50 @@
-﻿@model IEnumerable<BusinessLayer.Event>
+﻿@using MVCEventManager.Models.EventModels
+ @model IndexEventModel
 
 @{
     ViewData["Title"] = "Index";
+
 }
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="search-box">
+    <input type="text" placeholder="Search..." id="search-inpt" style="border: none !important; border-radius: 10px !important;" asp-for="SearchQuery"/>
+    <i class="fas fa-search" id="search"></i>
+</div>
 <table class="events-table">
     <thead style="background-color: rgb(55, 55, 55);">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Name
             </th>
             <th>
-                Start of Event
+                @{
+                    Dictionary<string, string> dateModel = new Dictionary<string, string>();
+
+                    if (Model.SortOrder == "Inc")
+                    {
+                        dateModel["SortOrder"] = "Dec";
+                    }
+                    else
+                    {
+                        dateModel["SortOrder"] = "Inc";
+                    }
+                }
+                <a asp-action="Index" asp-controller="Events" asp-all-route-data="@dateModel">
+                    Start of Event
+                    @{
+                       
+                        if (Model.SortOrder == "Inc")
+                        {
+                            <span>&#9660;</span>
+                        }
+                        else
+                        {
+                            <span>&#9650;</span>
+                        }
+                    }
+                </a>
             </th>
             <th>
                 Max Attendees
@@ -27,7 +55,7 @@
         </tr>
     </thead>
     <tbody class="tbody">
-    @foreach (var item in Model) {
+    @foreach (var item in Model.Events) {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -47,6 +75,20 @@
     }
     </tbody>
 </table>
+
+<script>
+    document.getElementById('search').addEventListener('click', function () {
+        const searchQuery = document.getElementById('search-inp').value;
+        const urlParams = new URLSearchParams(window.location.search);
+
+        urlParams.set('SearchQuery', searchQuery);
+
+        const sortOrder = urlParams.get('SortOrder') || '@Model.SortOrder';
+        urlParams.set('SortOrder', sortOrder);
+
+        window.location.search = urlParams.toString();
+    });
+</script>
 <style>
     .events-table {
         width: 100%;
@@ -81,6 +123,34 @@
             background-color: rgb(55, 55, 55);
             color: white;
             border: 0.3px solid rgba(255, 255, 255, 0.2);
+        }
+
+    .search-box {
+        position: relative;
+        display: inline-block;
+        border: none !important;
+        margin: 20px 0;
+        width: 25%;
+        min-width: 250px;
+        border-radius: 10px; 
+    }
+
+        .search-box input {
+            padding-right: 30px;
+            width: 100%;
+            padding: 10px 20px;
+        }
+
+        .search-box input:focus{
+            outline: none !important;
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: gray;
         }
 
 

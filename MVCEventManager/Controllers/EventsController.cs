@@ -17,6 +17,7 @@ using Microsoft.Build.Framework;
 using MVCEventManager.Services;
 using MVCEventManager.Models.OtherModels;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.Data.SqlClient;
 
 namespace MVCEventManager.Controllers
 {
@@ -31,9 +32,31 @@ namespace MVCEventManager.Controllers
             this.userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Dictionary<string, string> pars)
         {
-            return View(await context.ReadAllAsync());
+            List<Event> events = (List<Event>)await context.ReadAllAsync(true);
+            IndexEventModel model = new IndexEventModel
+            {
+                Events = events
+            };
+            if (pars.Count == 1)
+            {
+                model.SortOrder = pars["SortOrder"];
+            }
+            else
+            {
+                model.SortOrder = "Inc";
+            }
+
+            if (model.SortOrder == "Dec")
+            {
+                events = events.OrderByDescending(e => e.EventStart).ToList();
+            }
+            else
+            {
+                events = events.OrderBy(e => e.EventStart).ToList();
+            }
+            return View(model);
         }
 
         public async Task<IActionResult> Details(int id)
