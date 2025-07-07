@@ -1,7 +1,9 @@
 ﻿@page
 @using BusinessLayer
 @model MVCEventManager.Areas.Identity.Pages.Account.Manage.YourEventsModel
-
+@{
+    ViewData["Title"] = "Your Events";
+}
 <div class="events-container">
     @foreach(Event e in Model.Events)
     {

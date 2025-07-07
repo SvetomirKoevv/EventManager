@@ -39,7 +39,7 @@ namespace MVCEventManager.Controllers
             {
                 Events = events
             };
-            if (pars.Count == 1)
+            if (pars.ContainsKey("SortOrder"))
             {
                 model.SortOrder = pars["SortOrder"];
             }
@@ -56,6 +56,16 @@ namespace MVCEventManager.Controllers
             {
                 events = events.OrderBy(e => e.EventStart).ToList();
             }
+            if (pars.ContainsKey("SearchQuery"))
+            {
+                model.SearchQuery = pars["SearchQuery"];
+            }
+            else
+            {
+                model.SearchQuery = "";
+            }
+
+            model.Events = model.Events.Where(x => x.Name.Contains(model.SearchQuery)).ToList();
             return View(model);
         }
 
