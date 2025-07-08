@@ -4,7 +4,7 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager_
 
-<ul class="navbar-nav">
+<ul class="navbar-nav" style="justify-self: flex-end">
     @if (SignInManager.IsSignedIn(User))
     {
         User loggedInUser = await UserManager_.FindByNameAsync(UserManager_.GetUserName(User));
@@ -22,14 +22,14 @@
                 <button id="logout" type="submit" class="nav-link btn btn-link text-light border-0">Logout</button>
             </form>
         </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-white" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-            <a class="nav-link text-white" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-white" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link text-white" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
 </ul>

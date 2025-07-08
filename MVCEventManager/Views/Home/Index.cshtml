@@ -1,8 +1,60 @@
 ﻿@{
     ViewData["Title"] = "Event Manager";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="main-container">
+    <div class="main-title">
+        <h1>Event Manager</h1>
+        <p>Your place for storing and managing your events</p>
+    </div>
+    <div class="main-choose">
+        <h2>Why Chose Us?</h2>
+        <p>Our app provides a clean deisign and easy to use interface. It allows you to create and store your events.</p>
+    </div>
+    <div class="main-contact">
+        <h2>Contacts us here:</h2>
+        <ul>
+            <li>Phone: +3598888888</li>
+            <li>Email: evmanager@gmai.com</li>
+        </ul>
+    </div>
 </div>
+
+<style>
+    .main-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 100px;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .main-title{
+        width: 100%;
+        padding: 25px;
+        padding-top: 100px;
+        text-align: center;
+    }
+
+    .main-title * {
+        text-transform: uppercase;
+    }
+
+    .main-title h1 {
+        font-size: 3.3rem;
+        font-weight: bold;
+    }
+
+    .main-title p {
+        font-size: 1.2rem;
+    }
+
+
+    .main-container > div:not(:first-child) {
+        width: 100%;
+        padding: 25px;
+        border-radius: 7px;
+        background-color: rgb(70, 70, 70);
+        box-shadow: 0px 0px 3px 0px rgba(230, 230, 230, 0.3);
+    }
+</style>
