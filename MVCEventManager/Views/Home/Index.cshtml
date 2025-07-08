@@ -8,15 +8,40 @@
     </div>
     <div class="main-choose">
         <h2>Why Chose Us?</h2>
-        <p>Our app provides a clean deisign and easy to use interface. It allows you to create and store your events.</p>
+        <p>Our app provides a clean deisign and easy to use interface. It allows you to create and store your events and access them easily anywhere from any device. We provide constant updates to our service thus making your experience with the site always better and better.</p>
     </div>
     <div class="main-contact">
-        <h2>Contacts us here:</h2>
-        <ul>
-            <li>Phone: +3598888888</li>
-            <li>Email: evmanager@gmai.com</li>
-        </ul>
+        <div class="contact-left">
+            <h2 style="font-size: 2.5rem;">Contact Us</h2>
+            <ul>
+                <li><span class="contact-bold">Phone:</span> +359 888 888 888</li>
+                <li><span class="contact-bold">Email:</span> evmanager@gmail.com</li>
+                <li><span class="contact-bold">Office Hours:</span> Mon – Fri, 09:00 – 18:00</li>
+                <li><span class="contact-bold">Location:</span> Sofia, Bulgaria</li>
+            </ul>
+
+            <div class="socials">
+                <p style="font-size: 1.5rem;">Follow us:</p>
+                <div class="d-flex justify-content-evenly pt-5">
+                    <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook fa-5x" style="color: royalblue !important;"></i></a>
+                    <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-5x" style="color: hotpink!important;"></i></a>
+                    <a href="https://x.com/" target="_blank"><i class="fab fa-twitter fa-5x" style="color:black!important;"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-right">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d23666.863277381664!2d24.743670547607433!3d42.14262728380258!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbg!4v1751980591412!5m2!1sen!2sbg" 
+                width="100%" 
+                height="450" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
     </div>
+
 </div>
 
 <style>
@@ -52,9 +77,78 @@
 
     .main-container > div:not(:first-child) {
         width: 100%;
-        padding: 25px;
+        padding: 50px 25px;
         border-radius: 7px;
         background-color: rgb(70, 70, 70);
         box-shadow: 0px 0px 3px 0px rgba(230, 230, 230, 0.3);
+    }
+
+    .main-contact {
+        background-color: #2e2e2e;
+        padding: 30px;
+        border-radius: 10px;
+        color: #f0f0f0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+        margin: auto;
+        display: flex;
+        justify-content: space-evenly;
+        gap: 20px;
+    }
+
+    .main-contact > div{
+        width: 45%;
+    }
+
+        .main-contact h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .main-contact ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px;
+            line-height: 1.8;
+        }
+
+        .main-contact li {
+            font-size: 16px;
+        }
+
+    .socials a {
+        color: #00aaff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .socials a:hover {
+            text-decoration: underline;
+        }
+
+    .socials i {
+        margin-right: 8px;
+        transition: opacity 0.1s ease-in;
+    }
+
+    .socials i:hover{
+        opacity: 0.7;
+    }
+
+    .contact-bold {
+        font-weight: 900 !important;
+    }
+
+    @@media(max-width: 991px){
+        .main-contact{
+            flex-direction: column;
+        }
+
+        .main-contact > div{
+            width: 100%;
+        }
+
+        .contact-left{
+            padding-bottom: 100px;
+        }
     }
 </style>

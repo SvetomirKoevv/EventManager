@@ -112,7 +112,10 @@ else
         const searchQuery = input.value;
         const url = new URL(window.location.href);
 
-        url.searchParams.set("SearchQuery", searchQuery);
+        if (searchQuery != '')
+            url.searchParams.set("SearchQuery", searchQuery);
+        else
+            url.searchParams.delete("SearchQuery");
 
         const currentSortOrder = url.searchParams.get("SortOrder");
         if (currentSortOrder) {
