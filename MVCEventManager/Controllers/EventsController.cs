@@ -50,7 +50,7 @@ namespace MVCEventManager.Controllers
 
             if (model.SortOrder == "Dec")
             {
-                events = events.OrderByDescending(e => e.EventStart).ToList();
+                model.Events = model.Events.OrderByDescending(e => e.EventStart).ToList();
             }
             else
             {
@@ -163,7 +163,8 @@ namespace MVCEventManager.Controllers
                     Description = model.Description,
                     EventStart = eventDateTime,
                     Location = model.Location,
-                    MaxAttendees = model.MaxAttendees
+                    MaxAttendees = model.MaxAttendees,
+                    Creator = model.Creator
                 };
                 MessageModel newMessage = new MessageModel
                 {
@@ -176,7 +177,7 @@ namespace MVCEventManager.Controllers
                 TempData.Remove("CreateTimeTemp");
 
                 await context.CreateAsync(newEvent);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Events", new {id = newEvent.Id});
             }
             return View(model);
         }
@@ -210,7 +211,7 @@ namespace MVCEventManager.Controllers
             if (ModelState.IsValid)
             {
                 await context.CreateAsync(@event);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Events", new { id = @event.Id });
             }
 
             return View(@event);
@@ -257,6 +258,7 @@ namespace MVCEventManager.Controllers
                 Name = @event.Name,
                 Description = @event.Description,
                 Location = @event.Location,
+                EventStart = @event.EventStart,
                 MaxAttendees = @event.MaxAttendees,
                 ReturnUrl = returnUrl
             };
@@ -313,7 +315,7 @@ namespace MVCEventManager.Controllers
             return View(@event);
         }
 
-        public async Task<IActionResult> Delete(int id, string returnUrl)
+        public async Task<IActionResult> Delete(int id, string ReturnUrl)
         {
 
             Event @event = await context.ReadAsync(id);
@@ -330,7 +332,7 @@ namespace MVCEventManager.Controllers
                 Description = @event.Description,
                 Location = @event.Location,
                 MaxAttendees = @event.MaxAttendees,
-                ReturnUrl = returnUrl
+                ReturnUrl = ReturnUrl
             };
 
             return View(deleteEventModel);  
@@ -338,11 +340,11 @@ namespace MVCEventManager.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, string returnUrl)
+        public async Task<IActionResult> DeleteConfirmed(int id, string ReturnUrl)
         {
             await context.DeleteAsync(id);
 
-            return LocalRedirect(returnUrl);
+            return LocalRedirect(ReturnUrl);
         }
 
         private bool EventExists(int id)
