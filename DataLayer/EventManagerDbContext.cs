@@ -11,6 +11,8 @@ namespace DataLayer
 {
     public class EventManagerDbContext : IdentityDbContext<User>
     {
+
+        public static string ConnectionString = "Server=DESKTOP-RD8LV0K;Database=EventManager;Trusted_Connection=True;Encrypt=False";
         public EventManagerDbContext() : base() { }
 
         public EventManagerDbContext(DbContextOptions options) : base(options) { }
@@ -19,7 +21,7 @@ namespace DataLayer
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-RD8LV0K;Database=EventManager;Trusted_Connection=True;Encrypt=False");
+                optionsBuilder.UseSqlServer(ConnectionString);
             }
         }
 

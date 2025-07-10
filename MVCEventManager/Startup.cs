@@ -29,7 +29,7 @@ namespace MVCEventManager
             services.AddScoped<EventContext>();
 
             services.AddDbContext<EventManagerDbContext>(options =>
-                options.UseSqlServer("Server=DESKTOP-RD8LV0K;Database=EventManager;Trusted_Connection=True;Encrypt=False"),
+                options.UseSqlServer(EventManagerDbContext.ConnectionString),
                 ServiceLifetime.Scoped);
 
             services.AddIdentity<User, IdentityRole>(options =>

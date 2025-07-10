@@ -28,7 +28,7 @@ namespace SeedingLayer
 
                 DbContextOptionsBuilder builder = new DbContextOptionsBuilder();
                 builder.UseSqlServer(
-                    "Server=DESKTOP-RD8LV0K;Database=EventManager;Trusted_Connection=True;Encrypt=False"
+                    EventManagerDbContext.ConnectionString
                 );
 
                 EventManagerDbContext dbContext = new EventManagerDbContext(builder.Options);
