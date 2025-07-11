@@ -55,6 +55,7 @@
   ### 5. Seed data
   Set the **SeedingLayer** project as the startup project and run it.  
   This will populate the database with default roles and an admin account.  
+  By default the admin acount is set to have `username: evmanageradmin` and `password: evmanageradminpassword`. 
   The console will display whether everything was created successfully.
 
   ### 6. Start the app
