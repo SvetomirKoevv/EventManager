@@ -4,7 +4,7 @@
   <summary>Why ASP.NET</summary>
   In this section, I will explain why I chose to create this app using C# and ASP.NET.  
   One of the main reasons is that I have used C# in multiple projects and I’m familiar with building full-stack applications with it.  
-  Additionally, C# has powerful and easy-to-use frameworks like **Entity Framework**, which simplifies the process of creating and managing the application's database.
+  Additionally, C# has powerful and easy-to-use frameworks like Entity Framework, which simplifies the process of creating and managing the application's database and connection to the frontend.
 </details>
 
 <details>
